@@ -1,10 +1,10 @@
 #!/bin/sh
 
 
-docker volume ls --quiet | head -n 1 | while read VOLUME
+docker volume ls --quiet | while read VOLUME
 do
     (cat <<EOF
-CUTOFF=$(($(date +%s)-60*60*24*7)) &&
+CUTOFF=$(($(date +%s)-60*60*24*7*13)) &&
     find /volume -mindepth 1 | while read FILE1
     do
         stat -c %X "\${FILE1}"
