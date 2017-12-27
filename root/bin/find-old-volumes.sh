@@ -4,36 +4,39 @@
 docker volume ls --quiet | head -n 1 | while read VOLUME
 do
     (cat <<EOF
-last_x(){
-    find /volume -mindepth 1 | while read FILE
+CUTOFF=$(($(date +%s)-60*60*24*7)) &&
+    find /volume -mindepth 1 | while read FILE1
     do
-        stat -c %${1} "\${FILE}"
-    done | sort -u | tail -n 1
-    EOF
-        ) | docker \
-            container \
-            run \
-            --label expiry=$(($(date +%s)+60*60*24*7)) \
-            --interactive \
-            --rm \
-            --volume ${VOLUME}:/volume:ro \
-            --env VOLUME=${VOLUME} \
-            alpine:3.4 \
-                sh
-    done
-} &&
-    if [ $(last_x X) -lt $(($(date +%s)-60*60*24*7)) ] && [ $(last_x Y) -lt $(($(date +%s)-60*60*24*7)) ] && [ $(last_x Z) -lt $(($(date +%x)-60*60*24*7)) ]
-    then
+        stat -c %X "\${FILE1}"
+    done | sort -u | tail -n 1 | while read LAST_ACCESSED
+    do
+        [ \${LAST_ACCESSED} -lt ${CUTOFF} ] &&
+            find /volume -mindepth 1 | while read FILE2
+            do
+                stat -c %Y "\${FILE2}"
+            done | sort -u | tail -n 1 | while read LAST_MODIFIED
+            do
+                [ \${LAST_MODIFIED} -lt ${CUTOFF} ] &&
+                    find /volume -mindepth 1 | while read FILE3
+                    do
+                        stat -c %Z "\${FILE3}"
+                    done | sort -u | tail -n 1 | while read LAST_CHANGED
+                    do
+                        [ \${LAST_CHANGED} -lt ${CUTOFF ] &&
+                            echo \${VOLUME}
+                    done
+            done
+    done &&
         echo \${VOLUME}
-    fi
 EOF
-) | docker \
+    ) | docker \
     container \
     run \
     --interactive \
-    --tty \
     --rm \
     --label expiry=$(($(date +%s)+60*60*24*7)) \
-    $(docker volume ls --quiet --filter dangling=false | head -n 10 | while read VOLUME; do echo "--volume ${VOLUME}:/volumes/${VOLUME}:ro"; done) \
+    --volume ${VOLUME}:/volume:ro \
+    --env VOLUME=${VOLUME} \
     alpine:3.4 \
         sh
+done
