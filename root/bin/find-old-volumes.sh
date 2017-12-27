@@ -3,7 +3,7 @@
 (cat <<EOF
 find /volumes -mindepth 2 | while read FILE
 do
-    echo stat -c "%n %x" \${FILE}
+    stat -c "%n %x" \${FILE}
 done
 EOF
 ) | docker \
@@ -12,6 +12,6 @@ EOF
     --interactive \
     --rm \
     --label expiry=$(($(date +%s)+60*60*24*7)) \
-    $(docker volume ls --quiet --filter dangling=false | while read VOLUME; do echo "--volume ${VOLUME}:/volumes/${VOLUME}:ro"; done) \
+    $(docker volume ls --quiet --filter dangling=false | head -n 10 | while read VOLUME; do echo "--volume ${VOLUME}:/volumes/${VOLUME}:ro"; done) \
     alpine:3.4 \
         sh
