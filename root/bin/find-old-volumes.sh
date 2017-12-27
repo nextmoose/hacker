@@ -17,7 +17,14 @@ CUTOFF=$(($(date +%s)-60*60*24*7)) &&
             done | sort -u | tail -n 1 | while read LAST_MODIFIED
             do
                 [ \${LAST_MODIFIED} -lt \${CUTOFF} ] &&
-                    echo \${VOLUME}
+                    find /volume -mindepth 1 | while read FILE3
+                    do
+                        stat -c %X "\${FILE3}"
+                    done | sort -u | tail -n 1 | while read LAST_CHANGED
+                    do
+                        [ \${LAST_CHANGED} -lt \${CUTOFF} ] &&
+                            echo \${VOLUME}
+                    done
             done
     done
 EOF
