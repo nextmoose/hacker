@@ -2,7 +2,7 @@
 
 docker volume ls --quiet --filter dangling=true | while read VOLUME
 do
-    [ "<no value>" == $(docker volume inspect --format "{{ .Labels.expiry }}" ${VOLUME}) ] &&
+    [ "<no value>" == "$(docker volume inspect --format "{{ .Labels.expiry }}" ${VOLUME})" ] &&
         (cat <<EOF
 AGE_CUTOFF=$(($(date +%s)-${AGE_DELTA}))
     find /volume -mindepth 1 | while read FILE1
@@ -14,7 +14,7 @@ AGE_CUTOFF=$(($(date +%s)-${AGE_DELTA}))
         then
             echo \${VOLUME} &&
                 exit 0
-        fi &&
+        fi
     done &&
     find /volume -mindepth 1 | while read FILE1
     do
@@ -25,7 +25,7 @@ AGE_CUTOFF=$(($(date +%s)-${AGE_DELTA}))
         then
             echo \${VOLUME} &&
                 exit 0
-        fi &&
+        fi
     done &&
     find /volume -mindepth 1 | while read FILE1
     do
@@ -36,7 +36,7 @@ AGE_CUTOFF=$(($(date +%s)-${AGE_DELTA}))
         then
             echo \${VOLUME} &&
                 exit 0
-        fi &&
+        fi
     done
 EOF
         ) | docker \
