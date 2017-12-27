@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-docker volume ls --quiet | while read VOLUME
+docker volume ls --quiet --filter dangling=false | head -n 10 | while read VOLUME
 do
     (cat <<EOF
 CUTOFF=$(($(date +%s)-60*60*24*7*13)) &&
@@ -37,5 +37,8 @@ EOF
     --volume ${VOLUME}:/volume:ro \
     --env VOLUME=${VOLUME} \
     alpine:3.4 \
-        sh
+        sh | while read VOLUME
+        do
+            docker container ls --all --filter volume=${VOLUME}
+        done
 done
