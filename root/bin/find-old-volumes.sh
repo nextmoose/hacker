@@ -10,24 +10,16 @@ CUTOFF=$(($(date +%s)-60*60*24*7)) &&
         stat -c %X "\${FILE1}"
     done | sort -u | tail -n 1 | while read LAST_ACCESSED
     do
-        [ \${LAST_ACCESSED} -lt ${CUTOFF} ] &&
+        [ \${LAST_ACCESSED} -lt \${CUTOFF} ] &&
             find /volume -mindepth 1 | while read FILE2
             do
-                stat -c %Y "\${FILE2}"
+                stat -c %X "\${FILE2}"
             done | sort -u | tail -n 1 | while read LAST_MODIFIED
             do
-                [ \${LAST_MODIFIED} -lt ${CUTOFF} ] &&
-                    find /volume -mindepth 1 | while read FILE3
-                    do
-                        stat -c %Z "\${FILE3}"
-                    done | sort -u | tail -n 1 | while read LAST_CHANGED
-                    do
-                        [ \${LAST_CHANGED} -lt ${CUTOFF ] &&
-                            echo \${VOLUME}
-                    done
+                [ \${LAST_MODIFIED} -lt \${CUTOFF} ] &&
+                    echo \${VOLUME}
             done
-    done &&
-        echo \${VOLUME}
+    done
 EOF
     ) | docker \
     container \
