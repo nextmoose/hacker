@@ -4,9 +4,4 @@ User user
 IdentityFile ~/.ssh/lieutenant_id_rsa
 ControlMaster auto
 ControlPath ~/.ssh/lieutenant_%h_%p_%r_ctrl_path
-ControlPersist auto
-
-Host volumes-backup
-HostName
-IdentityFile ~/.ssh/volumes-backup-id-rsa
-User ec2-user
+ControlPersist yes
