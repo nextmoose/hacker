@@ -1,3 +1,11 @@
+Host lieutenant
+HostName 34.229.36.153
+User user
+IdentityFile ~/.ssh/lieutenant_id_rsa
+ControlMaster auto
+ControlPath ~/.ssh/lieutenant_%h_%p_%r_ctrl_path
+ControlPersist auto
+
 Host volumes-backup
 HostName
 IdentityFile ~/.ssh/volumes-backup-id-rsa
