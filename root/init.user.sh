@@ -1,6 +1,7 @@
 #!/bin/sh
 
-echo "${HACKER_2_LIEUTENANT_PRIVATE_KEY}" > /home/user/.ssh/lieutenant_id_rsa &&
+echo "${HACKER_2_LIEUTENANT_PRIVATE_KEY}" > /home/user/.ssh/lieutenant.id_rsa &&
+    echo "${HACKER_2_PAVILLION_PRIVATE_KEY}" > /home/user/.ssh/pavillion.id_rsa &&
     ssh-keyscan 34.229.36.153 >> /home/user/.ssh/known_hosts &&
     ln -sf /home/user/.ssh /opt/docker/workspace/dot_ssh &&
     echo "${VOLUMES_BACKUP_PRIVATE_KEY}" > /home/user/.ssh/volumes-backup-id-rsa &&

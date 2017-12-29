@@ -3,11 +3,13 @@ HostName 34.229.36.153
 User user
 LocalForward 10283 0.0.0.0:22
 LocalForward 11578 0.0.0.0:11578
+IdentityFile ~/.ssh/lieutenant.id_rsa
 
-Host hp-pavillion
+Host pavillion
 HostName 127.0.0.1
 Port 11578
 ForwardX11Trusted yes
+IdentityFile ~/.ssh/pavillion.id_rsa
 
 Host extra
 IdentityFile ~/.ssh/lieutenant_id_rsa
