@@ -1,7 +1,7 @@
 Host lieutenant
 HostName 34.229.36.153
 User user
-RemoteForward 16118 0.0.0.0:22
+LocalForward 10283 0.0.0.0:22
 
 Host extra
 IdentityFile ~/.ssh/lieutenant_id_rsa
