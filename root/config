@@ -2,6 +2,11 @@ Host lieutenant
 HostName 34.229.36.153
 User user
 LocalForward 10283 0.0.0.0:22
+LocalForward 11578 0.0.0.0:11578
+
+Host hp-pavillion
+HostName 127.0.0.1
+Port 11578
 
 Host extra
 IdentityFile ~/.ssh/lieutenant_id_rsa
