@@ -8,4 +8,4 @@ pip install awscli --upgrade --user &&
     chmod 0644 /home/user/.ssh/known_hosts &&
     cp /opt/docker/extension/config /home/user/.ssh/config &&
     touch /home/user/.ssh/{origin.id_rsa,upstream.id_rsa,report.id_rsa,lieutenant.id_rsa,pavillion.id_rsa} &&
-    chmod 0600 /home/user/.ssh{config,origin.id_rsa,upstream.id_rsa,report.id_rsa,lieutenant.id_rsa,pavillion.id_rsa}
+    chmod 0600 /home/user/.ssh/{config,origin.id_rsa,upstream.id_rsa,report.id_rsa,lieutenant.id_rsa,pavillion.id_rsa}
