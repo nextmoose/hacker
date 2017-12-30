@@ -11,6 +11,7 @@ EOF
     echo "${ORIGIN_ID_RSA}" > /home/user/.ssh/origin.id_rsa &&
     echo "${UPSTREAM_ID_RSA}" > /home/user/.ssh/upstream.id_rsa &&
     echo "${REPORT_ID_RSA}" > /home/user/.ssh/report.id_rsa &&
+    echo "${LIEUTENANT_EC2_PRIVATE_KEY}" > /home/user/.ssh/lieutenant-ec2.id_rsa &&
     echo "${HACKER_2_LIEUTENANT_PRIVATE_KEY}" > /home/user/.ssh/lieutenant.id_rsa &&
     echo "${HACKER_2_PAVILLION_PRIVATE_KEY}" > /home/user/.ssh/pavillion.id_rsa &&
     ssh-keyscan -p ${HOST_PORT} "${HOST_NAME}" > /home/user/.ssh/known_hosts &&
