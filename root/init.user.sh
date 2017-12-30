@@ -35,4 +35,6 @@ EOF
     pass git fetch origin master &&
     pass git checkout master &&
     cp /opt/docker/extension/post-commit.sh ${HOME}/.password-store/.git/hooks/post-commit &&
-    chmod 0500 ${HOME}/.password-store/.git/hooks/post-commit
+    chmod 0500 ${HOME}/.password-store/.git/hooks/post-commit &&
+    mkdir /opt/docker/workspace/lieutenant &&
+    sshfs -o allow_other lieutenant:/home/user /opt/docker/workspace/lieutenant/
