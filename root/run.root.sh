@@ -8,6 +8,7 @@ dnf update --assumeyes &&
     dnf install --assumeyes docker-common docker-latest &&
     dnf install --assumeyes man &&
     dnf install --assumeyes paperkey a2ps &&
+    dnf install --assumeyes fuse-sshfs &&
     echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user &&
     chmod 0444 /etc/sudoers.d/user &&
     dnf clean all
