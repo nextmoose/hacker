@@ -1,6 +1,6 @@
 #!/bin/sh
 
-pass git ls-tree -r --name-only HEAD | while read FILE
+pass git ls-tree -r --name-only HEAD | grep ".gpg\\\$" | while read FILE
 do
-    echo "$(pass git log -1 --format="%ad" -- ${FILE}) ${FILE}"
-done
+    pass git log -1 --format="%at ${FILE}" -- ${FILE}
+done | sort -k 1
