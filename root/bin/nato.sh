@@ -7,393 +7,389 @@ done | while read X
 do
     case ${X} in
         0)
-            echo Nul
+            Y=Nul
         ;;
         1)
-            echo Soh
+            Y=Soh
         ;;
         2)
-            echo Stx
+            Y=Stx
         ;;
         3)
-            echo Etx
+            Y=Etx
         ;;
         4)
-            echo Eot
+            Y=Eot
         ;;
         5)
-            echo Enq
+            Y=Enq
         ;;
         6)
-            echo Ack
+            Y=Ack
         ;;
         7)
-            echo Bel
+            Y=Bel
         ;;
         8)
-            echo Bs
+            Y=Bs
         ;;
         9)
-            echo Ht
+            Y=Ht
         ;;
         10)
-            echo Lf
+            Y=Lf
         ;;
         11)
-            echo Vt
+            Y=Vt
         ;;
         12)
-            echo Ff
+            Y=Ff
         ;;
         13)
-            echo Cr
+            Y=Cr
         ;;
         14)
-            echo So
+            Y=So
         ;;
         15)
-            echo Si
+            Y=Si
         ;;
         16)
-            echo Dle
+            Y=Dle
         ;;
         17)
-            echo Dc1
+            Y=Dc1
         ;;
         18)
-            echo Dc2
+            Y=Dc2
         ;;
         19)
-            echo Dc3
+            Y=Dc3
         ;;
         20)
-            echo Dc4
+            Y=Dc4
         ;;
         21)
-            echo Nak
+            Y=Nak
         ;;
         22)
-            echo Syn
+            Y=Syn
         ;;
         23)
-            echo Etb
+            Y=Etb
         ;;
         24)
-            echo Can
+            Y=Can
         ;;
         25)
-            echo Em
+            Y=Em
         ;;
         26)
-            echo Sub
+            Y=Sub
         ;;
         27)
-            echo Esc
+            Y=Esc
         ;;
         28)
-            echo Fs
+            Y=Fs
         ;;
         29)
-            echo Gs
+            Y=Gs
         ;;
         30)
-            echo Rs
+            Y=Rs
         ;;
         31)
-            echo Us
+            Y=Us
         ;;
         32)
-            echo Space
+            Y=Space
         ;;
         33)
-            echo ExclamationPoint
+            Y=ExclamationPoint
         ;;
         34)
-            echo DoubleQuote
+            Y=DoubleQuote
         ;;
         35)
-            echo Hash
+            Y=Hash
         ;;
         36)
-            echo Dollar
+            Y=Dollar
         ;;
         37)
-            echo Percent
+            Y=Percent
         ;;
         38)
-            echo Ampersand
+            Y=Ampersand
         ;;
         39)
-            echo SingleQuote
+            Y=SingleQuote
         ;;
         40)
-            echo OpenRoundBracket
+            Y=OpenRoundBracket
         ;;
         41)
-            echo CloseRoundBracket
+            Y=CloseRoundBracket
         ;;
         42)
-            echo Asterisk
+            Y=Asterisk
         ;;
         43)
-            echo Plus
+            Y=Plus
         ;;
         44)
-            echo Comma
+            Y=Comma
         ;;
         45)
-            echo Hyphen
+            Y=Hyphen
         ;;
         46)
-            echo Period
+            Y=Period
         ;;
         47)
-            echo ForwardSlash
+            Y=ForwardSlash
         ;;
         48)
-            echo Zero
+            Y=Zero
         ;;
         49)
-            echo One
+            Y=One
         ;;
         50)
-            echo Two
+            Y=Two
         ;;
         51)
-            echo Three
+            Y=Three
         ;;
         52)
-            echo Four
+            Y=Four
         ;;
         53)
-            echo Five
+            Y=Five
         ;;
         54)
-            echo Six
+            Y=Six
         ;;
         55)
-            echo Seven
+            Y=Seven
         ;;
         56)
-            echo Eight
+            Y=Eight
         ;;
         57)
-            echo Nine
+            Y=Nine
         ;;
         58)
-            echo Colon
+            Y=Colon
         ;;
         59)
-            echo Semicolon
+            Y=Semicolon
         ;;
         60)
-            echo LessThan
+            Y=LessThan
         ;;
         61)
-            echo Equals
+            Y=Equals
         ;;
         62)
-            echo GreaterThan
+            Y=GreaterThan
         ;;
         63)
-            echo QuestionMark
+            Y=QuestionMark
         ;;
         64)
-            echo At
+            Y=At
         ;;
         65)
-            echo ALFA
+            Y=ALFA
         ;;
         66)
-            echo BRAVO
+            Y=BRAVO
         ;;
         67)
-            echo CHARLIE
+            Y=CHARLIE
         ;;
         68)
-            echo DELTA
+            Y=DELTA
         ;;
         69)
-            echo ECHO
+            Y=ECHO
         ;;
         70)
-            echo FOXTROT
+            Y=FOXTROT
         ;;
         71)
-            echo GOLF
+            Y=GOLF
         ;;
         72)
-            echo HOTEL
+            Y=HOTEL
         ;;
         73)
-            echo INDIA
+            Y=INDIA
         ;;
         74)
-            echo JULIET
+            Y=JULIET
         ;;
         75)
-            echo KILO
+            Y=KILO
         ;;
         76)
-            echo LIMA
+            Y=LIMA
         ;;
         77)
-            echo MIKE
+            Y=MIKE
         ;;
         78)
-            echo NOVEMBER
+            Y=NOVEMBER
         ;;
         79)
-            echo OSCAR
+            Y=OSCAR
         ;;
         80)
-            echo PAPA
+            Y=PAPA
         ;;
         81)
-            echo QUEBEC
+            Y=QUEBEC
         ;;
         82)
-            echo ROMEO
+            Y=ROMEO
         ;;
         83)
-            echo SIERRA
+            Y=SIERRA
         ;;
         84)
-            echo TANGO
+            Y=TANGO
         ;;
         85)
-            echo UNIFORM
+            Y=UNIFORM
         ;;
         86)
-            echo VICTOR
+            Y=VICTOR
         ;;
         87)
-            echo WHISKEY
+            Y=WHISKEY
         ;;
         88)
-            echo XRAY
+            Y=XRAY
         ;;
         89)
-            echo YANKEE
+            Y=YANKEE
         ;;
         90)
-            echo ZULU
+            Y=ZULU
         ;;
         91)
-            echo OpenSquareBracket
+            Y=OpenSquareBracket
         ;;
         92)
-            echo BackwardSlash
+            Y=BackwardSlash
         ;;
         93)
-            echo CloseSquareBracket
+            Y=CloseSquareBracket
         ;;
         94)
-            echo Caret
+            Y=Caret
         ;;
         95)
-            echo Underscore
+            Y=Underscore
         ;;
         96)
-            echo Grave
+            Y=Grave
         ;;
         97)
-            echo alfa
+            Y=alfa
         ;;
         98)
-            echo brava
+            Y=brava
         ;;
         99)
-            echo charlie
+            Y=charlie
         ;;
         100)
-            echo delta
+            Y=delta
         ;;
         101)
-            echo echo
+            Y=echo
         ;;
         102)
-            echo foxtrot
+            Y=foxtrot
         ;;
         103)
-            echo golf
+            Y=golf
         ;;
         104)
-            echo hotel
+            Y=hotel
         ;;
         105)
-            echo india
+            Y=india
         ;;
         106)
-            echo juliet
+            Y=juliet
         ;;
         107)
-            echo kilo
+            Y=kilo
         ;;
         108)
-            echo lima
+            Y=lima
         ;;
         109)
-            echo mike
+            Y=mike
         ;;
         110)
-            echo november
+            Y=november
         ;;
         111)
-            echo oscar
+            Y=oscar
         ;;
         112)
-            echo papa
+            Y=papa
         ;;
         113)
-            echo quebec
+            Y=quebec
         ;;
         114)
-            echo romeo
+            Y=romeo
         ;;
         115)
-            echo sierra
+            Y=sierra
         ;;
         116)
-            echo tango
+            Y=tango
         ;;
         117)
-            echo uniform
+            Y=uniform
         ;;
         118)
-            echo victor
+            Y=victor
         ;;
         119)
-            echo whiskey
+            Y=whiskey
         ;;
         120)
-            echo xray
+            Y=xray
         ;;
         121)
-            echo yankee
+            Y=yankee
         ;;
         122)
-            echo zulu
+            Y=zulu
         ;;
         123)
-            echo OpenCurlyBracket
+            Y=OpenCurlyBracket
         ;;
         124)
-            echo Pipe
+            Y=Pipe
         ;;
         125)
-            echo CloseCurlyBracket
-        ;;
-        125)
-            echo Tilde
+            Y=CloseCurlyBracket
         ;;
         126)
-            echo 
+            Y=Tilde
         ;;
         *)
-            echo Code[${X}]
+            Y=Code
         ;;
-        A)
-            Alprintf '%03o' "$1"
-    esac
+    esac &&
+    printf "${Y} [%0$((21-${#Y}))d]\n" ${X}
 done
