@@ -18,7 +18,7 @@ aws \
     aws ec2 associate-address --allocation-id $(aws ec2 allocate-address --query "AllocationId" --output text) --instance-id $(aws ec2 describe-instances --filter Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].InstanceId" --output text) &&
     DOT_SSH=$(mktemp -d) &&
     chmod 0700 ${DOT_SSH} &&
-    echo "${LIEUTENANT_PRIVATE_KEY}" > ${DOT_SSH}/id_rsa &&
+    echo "${LIEUTENANT_AWS_PRIVATE_KEY}" > ${DOT_SSH}/id_rsa &&
     (cat > ${DOT_SSH}/config <<EOF
 Host lieutenant-ec2
 HostName $(aws ec2 describe-instances --filter Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress" --output text)
