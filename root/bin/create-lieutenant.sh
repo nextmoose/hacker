@@ -64,4 +64,5 @@ EOF
         --instance-id $(aws ec2 describe-instances --filters Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].InstanceId" --output text) &&
     ssh -F ${DOT_SSH}/config lieutenant-ec2 sudo mkfs -t ext4 /dev/xvdh &&
     ssh -F ${DOT_SSH}/config lieutenant-ec2 sudo mkdir /data &&
-    ssh -F ${DOT_SSH}/config lieutenant-ec2 sudo mount /dev/xvdh /data
+    ssh -F ${DOT_SSH}/config lieutenant-ec2 sudo mount /dev/xvdh /data &&
+    echo "find /dev/disk/by-uuid/ -mindepth 1 | while read FILE; do [ \$(readlink -f \${FILE}) == \"/dev/xvdh\" ] && basename \${FILE} ; done | while read UUID; do echo \"UUID=\${UUID}       /data   ext4    defaults,nofail        0       2\" | sudo tee --append /etc/fstab ; done" | ssh -F ${DOT_SSH}/config lieutenant-ec2 sh 
