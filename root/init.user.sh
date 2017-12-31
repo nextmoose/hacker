@@ -8,8 +8,9 @@ ${AWS_DEFAULT_REGION}
 
 EOF
     ) | aws configure &&
+    sleep 15s &&
     sed \
-        -e "s#\${LIEUTENANT_PUBLIC_IP_ADDRESS}#$(aws ec2 describe-instances --filters Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query \"Reservations[*].Instances[*].PublicIpAddress\" --output text)#" \
+        -e "s#127.0.0.1#$(aws ec2 describe-instances --filters Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query \"Reservations[*].Instances[*].PublicIpAddress\" --output text)#" \
         -e "s#\${HOST_NAME}#${HOST_NAME}#" \
         -e "s#\${HOST_PORT}#${HOST_PORT}#" \
         -e "w/home/user/.ssh/config" \
@@ -19,7 +20,7 @@ EOF
     echo "${REPORT_ID_RSA}" > /home/user/.ssh/report.id_rsa &&
     echo "${LIEUTENANT_AWS_PRIVATE_KEY}" > /home/user/.ssh/lieutenant-ec2.id_rsa &&
     ssh-keyscan -p ${HOST_PORT} "${HOST_NAME}" >> /home/user/.ssh/known_hosts &&
-    ssh-keyscan $(aws ec2 describe-instances --filters Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query \"Reservations[*].Instances[*].PublicIpAddress\" --output text) >> /home/user/.ssh/known_hosts &&
+    ssh-keyscan $(aws ec2 describe-instances --filters Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress" --output text) >> /home/user/.ssh/known_hosts &&
     ln -sf /home/user/.ssh /opt/docker/workspace/dot_ssh &&
     TEMP=$(mktemp -d) &&
     echo "${GPG_SECRET_KEY}" > ${TEMP}/gpg-secret-key &&
