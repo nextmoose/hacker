@@ -42,4 +42,4 @@ EOF
     cp /opt/docker/extension/post-commit.sh ${HOME}/.password-store/.git/hooks/post-commit &&
     chmod 0500 ${HOME}/.password-store/.git/hooks/post-commit &&
     mkdir /opt/docker/workspace/ec2-user &&
-    sshfs -o allow_other lieutenant-ec2:/data /opt/docker/workspace/ec2-user/
+    echo sshfs -o allow_other lieutenant-ec2:/data /opt/docker/workspace/ec2-user/
