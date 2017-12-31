@@ -47,7 +47,7 @@ EOF
             create-volume \
             --availability-zone $(aws ec2 describe-instances --filters Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].Placement.AvailabilityZone" --output text) \
             --no-encrypted \
-            --size 465 \
+            --size 10 \
             --tag-specifications "ResourceType=volume,Tags=[{Key=moniker,Value=lieutenant}]" \
             --query "VolumeId" \
             --output text) &&
