@@ -28,8 +28,9 @@ UserKnownHostsFile ${DOT_SSH}/known_hosts
 EOF
     ) &&
     chmod 0600 ${DOT_SSH}/config ${DOT_SSH}/id_rsa &&
-    sleep 15s &&
+    sleep 30s &&
     ssh-keyscan $(aws ec2 describe-instances --filter Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress" --output text) > ${DOT_SSH}/known_hosts &&
+    cat ${DOT_SSH}/known_hosts &&
     chmod 0644 ${DOT_SSH}/known_hosts &&
     aws \
         ec2 \
@@ -58,5 +59,5 @@ EOF
         --volume-id $(aws ec2 describe-volumes --filters Name=tag:moniker,Values=lieutenant --query "Volumes[*].VolumeId" --output text) \
         --instance-id $(aws ec2 describe-instances --filters Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].InstanceId" --output text) &&
     ssh -F ${DOT_SSH}/config lieutenant-ec2 sudo mkfs -t ext4 /dev/xvdh &&
-    ssh -F ${DOT_SSH}/config lieutenant-ec2 sudo mount /dev/xvdh /data &&
-    true
+    ssh -F ${DOT_SSH}/config lieutenant-ec2 sudo mkdir /data &&
+    ssh -F ${DOT_SSH}/config lieutenant-ec2 sudo mount /dev/xvdh /data
