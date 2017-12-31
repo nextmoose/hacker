@@ -1,3 +1,3 @@
 #!/bin/sh
 
-gnucash ec2-user/gnucash/gnucash.gnucash
+/usr/bin/gnucash ec2-user/gnucash/gnucash.gnucash
