@@ -1,5 +1,9 @@
 #!/bin/sh
 
+
+# this works except that you have to answer yes
+# to a security question
+# so much bullshit
 aws \
     ec2 \
     wait \
