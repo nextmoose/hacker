@@ -10,6 +10,8 @@ EOF
     ) | aws configure &&
     sed \
         -e "s#\${LIEUTENANT_PUBLIC_IP_ADDRESS}#$(aws ec2 describe-instances --filters Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query \"Reservations[*].Instances[*].PublicIpAddress\" --output text)#" \
+        -e "s#\${HOST_NAME}#${HOST_NAME}" \
+        -e "s#\${HOST_PORT}#${HOST_PORT}" \
         -e "w/home/user/.ssh/config" \
         /opt/docker/extension/config &&
     echo "${ORIGIN_ID_RSA}" > /home/user/.ssh/origin.id_rsa &&
