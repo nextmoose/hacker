@@ -57,6 +57,6 @@ EOF
         --device /dev/sdh \
         --volume-id $(aws ec2 describe-volumes --filters Name=tag:moniker,Values=lieutenant --query "Volumes[*].VolumeId" --output text) \
         --instance-id $(aws ec2 describe-instances --filters Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].InstanceId" --output text) &&
-    ssh -F ${DOT_SSH} lieutenant-ec2 sudo mkfs -t ext4 /dev/xvdh &&
-    ssh -F ${DOT_SSH} lieutenant-ec2 sudo mount /dev/xvdh /data &&
+    ssh -F ${DOT_SSH}/config lieutenant-ec2 sudo mkfs -t ext4 /dev/xvdh &&
+    ssh -F ${DOT_SSH}/config lieutenant-ec2 sudo mount /dev/xvdh /data &&
     true
