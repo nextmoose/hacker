@@ -10,6 +10,7 @@ EOF
     ) | aws configure &&
     sleep 15s &&
     PUBLIC_IP_ADDRESS=$(aws ec2 describe-instances --filters Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress" --output text) &&
+    echo ${PUBLIC_IP_ADDRESS} &&
     sed \
         -e "s#127.0.0.1#${PUBLIC_IP_ADDRESS}#" \
         -e "s#\${HOST_NAME}#${HOST_NAME}#" \
