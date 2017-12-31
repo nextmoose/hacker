@@ -1,15 +1,18 @@
 Host origin
-HostName github.com
+HostName ${HOST_NAME}
+Port ${HOST_PORT}
 User git
 IdentityFile ~/.ssh/origin.id_rsa
 
 Host upstream
-HostName github.com
+HostName ${HOST_NAME}
+Port ${HOST_PORT}
 User git
 IdentityFile ~/.ssh/upstream.id_rsa
 
 Host report
-HostName github.com
+HostName ${HOST_NAME}
+Port ${HOST_PORT}
 User git
 IdentityFile ~/.ssh/report.id_rsa
 
