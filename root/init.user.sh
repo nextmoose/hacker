@@ -26,7 +26,7 @@ EOF
     pass git init &&
     pass git config user.name "${USER_NAME}" &&
     pass git config user.email "${USER_EMAIL}" &&
-    pass git remote add origin origin:${SECRETS_ORIGIN_ORGANIZATION}/${SECRETS_ORIGIN_REPOSITORY}.git &&
+    pass git remote add origin origin:${GOVERNOR_SECRETS_ORIGIN_ORGANIZATION}/${GOVERNOR_SECRETS_ORIGIN_REPOSITORY}.git &&
     echo "${ORIGIN_ID_RSA}" > /home/user/.ssh/origin_id_rsa &&
     ln -sf /usr/bin/post-commit ${HOME}/.password-store/.git/hooks/post-commit &&
     ln -sf /home/user/bin /opt/docker/workspace
