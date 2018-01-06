@@ -54,6 +54,7 @@ SECURITY_GROUP=$(uuidgen) &&
     sed -i "s%# HostName \${LIEUTENANT_PUBLIC_IP_ADDRESS}%HostName $(aws ec2 describe-instances --filter Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress" --output text)%" ${HOME}/.ssh/config &&
     sed -i "s%# User ec2-user%User ec2-user%" ${HOME}/.ssh/config &&
     sed -i "s%# IdentityFile \${LIEUTENANT_IDENTITY_FILE}%IdentityFile ${KEY_FILE}%" ${HOME}/.ssh/config &&
+    sleep 15s &&
     ssh-keyscan $(aws ec2 describe-instances --filter Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress" --output text) >> ${HOME}/.ssh/known_hosts &&
     ssh lieutenant-ec2 sudo mkdir /data &&
     ssh lieutenant-ec2 sudo mount ${DEVICE} /data &&
