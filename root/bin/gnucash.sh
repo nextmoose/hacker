@@ -14,10 +14,10 @@ SECURITY_GROUP=$(uuidgen) &&
                     ec2 \
                     terminate-instances \
                     --instance-ids $(aws ec2 describe-instances --filters Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[0].Instances[*].InstanceId" --output text) \
-                    --query "TerminatedInstances[*].InstanceId" \
+                    --query "TerminatingInstances[*].InstanceId" \
                     --output text) &&
-            sed -i "s%Host lieutenant-ec2%# Host lieutenant-ec2%" &&
-            sed -i "s%HostName $(aws ec2 describe-instances --filter Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress" --output text)%# HostName \${LIEUTENANT_PUBLIC_IP_ADDRESS}%" ${HOME}/.ssh/config &&
+            sed -i "s%Host lieutenant-ec2%# Host lieutenant-ec2%" ${HOME}/.ssh/config &&
+            sed -i "s%HostName $(aws ec2 describe-instances --filter Name=tag:moniker,Values=lieutenant Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress" --output text)%# HostName \${LIEUTENANT_PUBLIC_IP_ADDRESS}%" ${HOME}/.ssh/config  &&
             sed -i "s%User ec2-user%# User ec2-user%" ${HOME}/.ssh/config &&
             sed -i "s%IdentityFile ${KEY_FILE}%# IdentityFile \${LIEUTENANT_IDENTITY_FILE}%" ${HOME}/.ssh/config &&
             aws ec2 delete-security-group --group-name ${SECURITY_GROUP} &&
