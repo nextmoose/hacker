@@ -86,7 +86,7 @@ xhost +local: &&
         --mount type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
         --label expiry=$(($(date +%s)+60*60*24*7)) \
         --entrypoint bash \
-        rebelplutonium/hacker:0.0.12 &&
+        rebelplutonium/hacker:${HACKER_VERSION} &&
     sudo docker network create --label expiry=$(($(date +%s)+60*60*24*7)) $(uuidgen) > ${TEMP_DIR}/networks/main &&
     sudo docker network connect $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/browser) &&
     sudo docker network connect --alias hacker $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/hacker) &&
