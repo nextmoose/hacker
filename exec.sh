@@ -15,7 +15,7 @@ xhost +local: &&
         do
             sudo docker network rm $(cat ${TEMP_DIR}/networks/${FILE})
         done &&
-        ls -1 ${TEMP_DIR}/volume | while read FILE
+        ls -1 ${TEMP_DIR}/volumes | while read FILE
         do
             sudo docker volume rm $(cat ${TEMP_DIR}/volumes/${FILE})
         done &&
