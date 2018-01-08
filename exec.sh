@@ -53,10 +53,10 @@ xhost +local: &&
         --label expiry=$(($(date +%s)+60*60*24*7)) \
         rebelplutonium/browser:0.0.0 &&
     export ORIGIN_ID_RSA="$(cat private/origin.id_rsa)" &&
-    export GPG_SECRET_KEY="$(cat private/gpg-secret-key)" &&
-    export GPG2_SECRET_KEY="$(cat private/gpg2-secret-key)" &&
-    export GPG_OWNER_TRUST="$(cat private/gpg-owner-trust)" &&
-    export GPG2_OWNER_TRUST="$(cat private/gpg2-owner-trust)" &&
+    export GPG_SECRET_KEY="$(cat private/gpg_secret_key)" &&
+    export GPG2_SECRET_KEY="$(cat private/gpg2_secret_key)" &&
+    export GPG_OWNER_TRUST="$(cat private/gpg_owner_trust)" &&
+    export GPG2_OWNER_TRUST="$(cat private/gpg2_owner_trust)" &&
     sudo \
         docker \
         container \
