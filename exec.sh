@@ -42,7 +42,7 @@ xhost +local: &&
             ;;
         esac
     done &&
-    docker volume --label expiry=$(($(date +%s)+60*60*24*7)) create > ${TEMP_DIR}/volumes/storage &&
+    docker volume create --label expiry=$(($(date +%s)+60*60*24*7)) > ${TEMP_DIR}/volumes/storage &&
     docker \
         container \
         create \
