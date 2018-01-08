@@ -61,6 +61,8 @@ xhost +local: &&
         docker \
         container \
         create \
+        --interactive \
+        --tty \
         --cidfile ${TEMP_DIR}/containers/hacker \
         --env PROJECT_NAME="my-hacker" \
         --env CLOUD9_PORT="10379" \
@@ -83,9 +85,10 @@ xhost +local: &&
         --mount type=bind,source=/home,destination=/srv/home,readonly=false \
         --mount type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
         --label expiry=$(($(date +%s)+60*60*24*7)) \
+        --entrypoint bash \
         rebelplutonium/hacker:0.0.12 &&
     sudo docker network create --label expiry=$(($(date +%s)+60*60*24*7)) $(uuidgen) > ${TEMP_DIR}/networks/main &&
     sudo docker network connect $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/browser) &&
     sudo docker network connect --alias hacker $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/hacker) &&
     sudo docker container start $(cat ${TEMP_DIR}/containers/browser) &&
-    sudo docker container start $(cat ${TEMP_DIR}/containers/hacker)
+    sudo docker container start --interactive $(cat ${TEMP_DIR}/containers/hacker)
