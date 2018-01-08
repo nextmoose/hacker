@@ -51,6 +51,11 @@ xhost +local: &&
         --mount --type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
         --label expiry=$(($(date +%s)+60*60*24*7)) \
         rebelplutonium/browser:0.0.0 &&
+    export ORIGIN_ID_RSA="$(cat private/origin.id_rsa)" &&
+    export GPG_SECRET_KEY="$(cat private/gpg-secret-key)" &&
+    export GPG2_SECRET_KEY="$(cat private/gpg2-secret-key)" &&
+    export GPG_OWNER_TRUST="$(cat private/gpg-owner-trust)" &&
+    export GPG2_OWNER_TRUST="$(cat private/gpg2-owner-trust)" &&
     docker \
         container \
         create \
@@ -61,6 +66,13 @@ xhost +local: &&
         --env EXTERNAL_NETWORK_NAME \
         --env USER_NAME="Emory Merryman" \
         --env USER_EMAIL="emory.merryman@gmail.com" \
+        --env ORIGIN_ID_RSA \
+        --env GPG_SECRET_KEY \
+        --env GPG2_SECRET_KEY \
+        --env GPG_OWNER_TRUST \
+        --env GPG_KEY_ID=D65D3F8C \
+        --env SECRETS_ORIGIN_ORGANIZATION=nextmoose \
+        --env SECRETS_ORIGIN_REPOSITORY=secrets \
         --privileged \
         --mount type=bind,source=/tmp/.X11-unix/X0,destination=/tmp/.X11-unix/X0,readonly=true \
         --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
