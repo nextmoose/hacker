@@ -8,16 +8,16 @@ xhost +local: &&
     cleanup(){
         ls -1 ${TEMP_DIR}/containers | while read FILE
         do
-            docker container stop $(cat ${TEMP_DIR}/containers/${FILE}) &&
-                docker container rm --volumes $(cat ${TEMP_DIR}/containers/${FILE})
+            sudo docker container stop $(cat ${TEMP_DIR}/containers/${FILE}) &&
+                sudo docker container rm --volumes $(cat ${TEMP_DIR}/containers/${FILE})
         done &&
         ls -1 ${TEMP_DIR}/networks | while read FILE
         do
-            docker network rm $(cat ${TEMP_DIR}/networks/${FILE})
+            sudo docker network rm $(cat ${TEMP_DIR}/networks/${FILE})
         done &&
         ls -1 ${TEMP_DIR}/volume | while read FILE
         do
-            docker volume rm $(cat ${TEMP_DIR}/volumes/${FILE})
+            sudo docker volume rm $(cat ${TEMP_DIR}/volumes/${FILE})
         done &&
         rm -rf ${TEMP_DIR} &&
         xhost
@@ -42,8 +42,9 @@ xhost +local: &&
             ;;
         esac
     done &&
-    docker volume create --label expiry=$(($(date +%s)+60*60*24*7)) > ${TEMP_DIR}/volumes/storage &&
-    docker \
+    sudo docker volume create --label expiry=$(($(date +%s)+60*60*24*7)) > ${TEMP_DIR}/volumes/storage &&
+    sudo \
+        docker \
         container \
         create \
         --cidfile ${TEMP_DIR}/containers/browser \
@@ -56,7 +57,8 @@ xhost +local: &&
     export GPG2_SECRET_KEY="$(cat private/gpg2-secret-key)" &&
     export GPG_OWNER_TRUST="$(cat private/gpg-owner-trust)" &&
     export GPG2_OWNER_TRUST="$(cat private/gpg2-owner-trust)" &&
-    docker \
+    sudo \
+        docker \
         container \
         create \
         --cidfile ${TEMP_DIR}/containers/hacker \
@@ -82,8 +84,8 @@ xhost +local: &&
         --mount --type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
         --label expiry=$(($(date +%s)+60*60*24*7)) \
         rebelplutonium/hacker:0.0.12 &&
-    docker network create --label expiry=$(($(date +%s)+60*60*24*7)) $(uuidgen) > ${TEMP_DIR}/networks/main &&
-    docker network connect $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/browser) &&
-    docker network connect -alias hacker $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/hacker) &&
-    docker container start $(cat ${TEMP_DIR}/browser) &&
-    docker container start $(cat ${TEMP_DIR}/hacker)
+    sudo docker network create --label expiry=$(($(date +%s)+60*60*24*7)) $(uuidgen) > ${TEMP_DIR}/networks/main &&
+    sudo docker network connect $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/browser) &&
+    sudo docker network connect -alias hacker $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/hacker) &&
+    sudo docker container start $(cat ${TEMP_DIR}/browser) &&
+    sudo docker container start $(cat ${TEMP_DIR}/hacker)
