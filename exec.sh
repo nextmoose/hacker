@@ -17,7 +17,7 @@ xhost +local: &&
         done &&
         ls -1 ${TEMP_DIR}/volume | while read FILE
         do
-            docker volume rm $(cat ${TEMP_DIR}/volume/${FILE})
+            docker volume rm $(cat ${TEMP_DIR}/volumes/${FILE})
         done &&
         rm -rf ${TEMP_DIR} &&
         xhost
