@@ -86,6 +86,6 @@ xhost +local: &&
         rebelplutonium/hacker:0.0.12 &&
     sudo docker network create --label expiry=$(($(date +%s)+60*60*24*7)) $(uuidgen) > ${TEMP_DIR}/networks/main &&
     sudo docker network connect $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/browser) &&
-    sudo docker network connect -alias hacker $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/hacker) &&
+    sudo docker network connect --alias hacker $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/hacker) &&
     sudo docker container start $(cat ${TEMP_DIR}/browser) &&
     sudo docker container start $(cat ${TEMP_DIR}/hacker)
