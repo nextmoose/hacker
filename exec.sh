@@ -80,7 +80,7 @@ xhost +local: &&
         --mount type=bind,source=/media,destination=/srv/media,readonly=false \
         --mount type=bind,source=/home,destination=/srv/home,readonly=false \
         --mount --type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
-        --label expiry=$(($(date +%s)+60*60*24*7))
+        --label expiry=$(($(date +%s)+60*60*24*7)) \
         rebelplutonium/hacker:0.0.12 &&
     docker network create --label expiry=$(($(date +%s)+60*60*24*7)) $(uuidgen) > ${TEMP_DIR}/networks/main &&
     docker network connect $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/browser) &&
