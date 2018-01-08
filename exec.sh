@@ -48,8 +48,8 @@ xhost +local: &&
         container \
         create \
         --cidfile ${TEMP_DIR}/containers/browser \
-        --mount --type=bind,source=/tmp/.X11-unix/X0,destination=/tmp/.X11-unix/X0,readonly=true \
-        --mount --type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
+        --mount type=bind,source=/tmp/.X11-unix/X0,destination=/tmp/.X11-unix/X0,readonly=true \
+        --mount type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
         --label expiry=$(($(date +%s)+60*60*24*7)) \
         rebelplutonium/browser:0.0.0 &&
     export ORIGIN_ID_RSA="$(cat private/origin.id_rsa)" &&
@@ -81,7 +81,7 @@ xhost +local: &&
         --mount type=bind,source=/,destination=/srv/host,readonly=true \
         --mount type=bind,source=/media,destination=/srv/media,readonly=false \
         --mount type=bind,source=/home,destination=/srv/home,readonly=false \
-        --mount --type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
+        --mount type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
         --label expiry=$(($(date +%s)+60*60*24*7)) \
         rebelplutonium/hacker:0.0.12 &&
     sudo docker network create --label expiry=$(($(date +%s)+60*60*24*7)) $(uuidgen) > ${TEMP_DIR}/networks/main &&
