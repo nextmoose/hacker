@@ -66,14 +66,14 @@ xhost +local: &&
         --cidfile ${TEMP_DIR}/containers/hacker \
         --env PROJECT_NAME="my-hacker" \
         --env CLOUD9_PORT="10379" \
-        --env DISPLAY \
-        --env EXTERNAL_NETWORK_NAME \
+        --env DISPLAY="${DISPLAY}" \
+        --env EXTERNAL_NETWORK_NAME="${EXTERNAL_NETWORK_NAME}" \
         --env USER_NAME="Emory Merryman" \
         --env USER_EMAIL="emory.merryman@gmail.com" \
-        --env ORIGIN_ID_RSA \
-        --env GPG_SECRET_KEY \
-        --env GPG2_SECRET_KEY \
-        --env GPG_OWNER_TRUST \
+        --env ORIGIN_ID_RSA="${ORIGIN_ID_RSA}" \
+        --env GPG_SECRET_KEY="${GPG_SECRET_KEY}" \
+        --env GPG2_SECRET_KEY="${GPG2_SECRET_KEY}" \
+        --env GPG_OWNER_TRUST="${GPG_OWNER_TRUST}" \
         --env GPG_KEY_ID=D65D3F8C \
         --env SECRETS_ORIGIN_ORGANIZATION=nextmoose \
         --env SECRETS_ORIGIN_REPOSITORY=secrets \
