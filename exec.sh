@@ -74,6 +74,7 @@ xhost +local: &&
         --env GPG_SECRET_KEY="${GPG_SECRET_KEY}" \
         --env GPG2_SECRET_KEY="${GPG2_SECRET_KEY}" \
         --env GPG_OWNER_TRUST="${GPG_OWNER_TRUST}" \
+        --env GPG2_OWNER_TRUST="${GPG2_OWNER_TRUST}" \
         --env GPG_KEY_ID=D65D3F8C \
         --env SECRETS_ORIGIN_ORGANIZATION=nextmoose \
         --env SECRETS_ORIGIN_REPOSITORY=secrets \
