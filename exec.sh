@@ -51,7 +51,8 @@ xhost +local: &&
         --mount type=bind,source=/tmp/.X11-unix/X0,destination=/tmp/.X11-unix/X0,readonly=true \
         --mount type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
         --label expiry=$(($(date +%s)+60*60*24*7)) \
-        rebelplutonium/browser:0.0.0 &&
+        rebelplutonium/browser:0.0.0 \
+            http://my-hacker:10379 &&
     export ORIGIN_ID_RSA="$(cat private/origin.id_rsa)" &&
     export GPG_SECRET_KEY="$(cat private/gpg_secret_key)" &&
     export GPG2_SECRET_KEY="$(cat private/gpg2_secret_key)" &&
@@ -86,7 +87,6 @@ xhost +local: &&
         --mount type=bind,source=/home,destination=/srv/home,readonly=false \
         --mount type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
         --label expiry=$(($(date +%s)+60*60*24*7)) \
-        --entrypoint bash \
         rebelplutonium/hacker:${HACKER_VERSION} &&
     sudo docker network create --label expiry=$(($(date +%s)+60*60*24*7)) $(uuidgen) > ${TEMP_DIR}/networks/main &&
     sudo docker network connect $(cat ${TEMP_DIR}/networks/main) $(cat ${TEMP_DIR}/containers/browser) &&
