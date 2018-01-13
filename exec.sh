@@ -50,6 +50,7 @@ xhost +local: &&
         --cidfile ${TEMP_DIR}/containers/browser \
         --mount type=bind,source=/tmp/.X11-unix/X0,destination=/tmp/.X11-unix/X0,readonly=true \
         --mount type=volume,source=$(cat ${TEMP_DIR}/volumes/storage),destination=/srv/storage,readonly=false \
+        --env DISPLAY=${DISPLAY} \
         --label expiry=$(($(date +%s)+60*60*24*7)) \
         rebelplutonium/browser:0.0.0 \
             http://my-hacker:10379 &&
