@@ -24,7 +24,6 @@ export PROJECT_NAME=hacker &&
     cd $(mktemp -d /srv/docker/workspace/XXXXXXXX) &&
     CIDFILE=$(generate-container-id) &&
     export PROJECT_NAME=hacker4 &&
-    rm ${CIDFILE} &&
     docker \
         container \
         create \
