@@ -1,6 +1,7 @@
 #!/bin/sh
 
-export CLOUD9_PORT=10380 &&
+export PROJECT_NAME=hacker &&
+    export CLOUD9_PORT=10380 &&
     while [ ${#} -gt 0 ]
     do
         case ${1} in
