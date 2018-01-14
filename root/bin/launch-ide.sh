@@ -48,6 +48,6 @@ export PROJECT_NAME=hacker &&
         --env HOST_NAME=github.com \
         --env HOST_PORT=22 \
         --env MASTER_BRANCH=master \
-        rebelplutonium/github:0.0.4 &&
+        rebelplutonium/github:0.0.5 &&
     docker network connect --alias ${PROJECT_NAME} ${EXTERNAL_NETWORK_NAME} $(cat ${CIDFILE}) &&
     docker container start $(cat ${CIDFILE})
