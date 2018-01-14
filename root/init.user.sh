@@ -24,4 +24,5 @@ TEMP=$(mktemp -d) &&
     do
         cp /usr/local/bin/${FILE} /home/user/bin/${FILE}.sh &&
             chmod 0700 /home/user/bin/${FILE}.sh
-    done
+    done &&
+    ln -sf /srv/docker /opt/docker/workspace
