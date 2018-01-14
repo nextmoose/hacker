@@ -25,4 +25,6 @@ TEMP=$(mktemp -d) &&
     do
         cp /usr/local/bin/${FILE} /home/user/bin/${FILE}.sh &&
             chmod 0700 /home/user/bin/${FILE}.sh
-    done
+    done &&
+    pass git fetch origin master &&
+    pass git checkout master
