@@ -15,9 +15,8 @@ MONIKER=d2252340-b1e2-41e3-a928-37530ec18e1e &&
                 --instance-ids $(aws \
                     ec2 \
                     terminate-instances \
-                    --instance-ids $(aws ec2 describe-instances --filters Name=tag:moniker,Values=${MONIKER} Name=instance-state-name,Values=running --query "Reservations[0].Instances[*].InstanceId" --output text) \
-                    --query "TerminatingInstances[*].InstanceId" \
-                    --output text) &&
+                    --instance-ids $(aws ec2 describe-instances --filters Name=tag:moniker,Values=${MONIKER} Name=instance-state-name,Values=running --query "Reservations[0].Instances[*].InstanceId") \
+                    --query "TerminatingInstances[*].InstanceId") &&
             aws ec2 delete-security-group --group-name ${SECURITY_GROUP} &&
             aws ec2 delete-key-pair --key-name ${KEY_NAME}
     } &&
@@ -32,7 +31,8 @@ MONIKER=d2252340-b1e2-41e3-a928-37530ec18e1e &&
                 --availability-zone $(aws ec2 describe-availability-zones --query "AvailabilityZones[0].ZoneName") \
                 --size 5 \
                 --tag-specifications "ResourceType=volume,Tags=[{Key=moniker,Value=${MONIKER}}]" \
-                --query json) &&
+                --query "VolumeId") &&
+        ssh-keygen -f ${KEY_FILE} -C "temporary ec2 ebs" -P "" &&
         aws \
             ec2 \
             wait \
@@ -41,32 +41,30 @@ MONIKER=d2252340-b1e2-41e3-a928-37530ec18e1e &&
                 ec2 \
                 run-instances \
                 --image-id ami-55ef662f \
-                --security-group-ids $(aws ec2 create-security-group --group-name ${SECURITY_GROUP} --description "security group for the ec2 ebs environment in EC2" --query "GroupId" --output text) \
+                --security-group-ids $(aws ec2 create-security-group --group-name ${SECURITY_GROUP} --description "security group for the ec2 ebs environment in EC2" --query "GroupId") \
                 --count 1 \
                 --instance-type t2.micro \
-                --key-name $(aws ec2 import-key-pair --key-name ${KEY_NAME} --public-key-material "$(cat ${KEY_FILE}.pub)" --query "KeyName" --output text) \
-                --placement AvailabilityZone=$(aws ec2 describe-volumes --filters Name=tag:moniker,Values= --query "Volumes[*].AvailabilityZone" --output text) \
-                --tag-specifications "ResourceType=instance,Tags=[{Key=moniker,Value=${MONKIKER}]" \
-                --query "Instances[0].InstanceId" \
-                --output text) &&
+                --key-name $(aws ec2 import-key-pair --key-name ${KEY_NAME} --public-key-material "$(cat ${KEY_FILE}.pub)" --query "KeyName") \
+                --placement AvailabilityZone=$(aws ec2 describe-volumes --filters Name=tag:moniker,Values= --query "Volumes[*].AvailabilityZone") \
+                --tag-specifications "ResourceType=instance,Tags=[{Key=moniker,Value=${MONIKER}}]" \
+                --query "Instances[0].InstanceId") &&
         DEVICE=$(aws \
             ec2 \
             attach-volume \
             --device /dev/sdh \
-            --volume-id $(aws ec2 describe-volumes --filters Name=tag:moniker,Values=${MONIKER} --query "Volumes[*].VolumeId" --output text) \
-            --instance-id $(aws ec2 describe-instances --filters Name=tag:moniker,Values=${MONIKER} Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].InstanceId" --output text) \
-            --query "Device" \
-            --output text) 
+            --volume-id $(aws ec2 describe-volumes --filters Name=tag:moniker,Values=${MONIKER} --query "Volumes[*].VolumeId") \
+            --instance-id $(aws ec2 describe-instances --filters Name=tag:moniker,Values=${MONIKER} Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].InstanceId") \
+            --query "Device") && 
     aws ec2 authorize-security-group-ingress --group-name ${SECURITY_GROUP} --protocol tcp --port 22 --cidr 0.0.0.0/0 &&
     (cat > ${DOT_SSH_CONFIG_FILE} <<EOF
 Host ${MONIKER}-ec2
-HostName $(aws ec2 describe-instances --filter Name=tag:moniker,Values=${MONIKER} Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress" --output text)
+HostName $(aws ec2 describe-instances --filter Name=tag:moniker,Values=${MONIKER} Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress")
 User ec2-user
 IdentityFile ${KEY_FILE}
 EOF
     ) &&
     sleep 15s &&
-    ssh-keyscan $(aws ec2 describe-instances --filter Name=tag:moniker,Values=${MONIKER} Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress" --output text) >> ${HOME}/.ssh/known_hosts &&
+    ssh-keyscan $(aws ec2 describe-instances --filter Name=tag:moniker,Values=${MONIKER} Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress") >> ${HOME}/.ssh/known_hosts &&
     ssh ${MONIKER}-ec2 sudo mkfs -t ext4 ${DEVICE} &&
     ssh ${MONIKER}-ec2 sudo mkdir /data &&
     ssh ${MONIKER}-ec2 sudo mount ${DEVICE} /data &&
