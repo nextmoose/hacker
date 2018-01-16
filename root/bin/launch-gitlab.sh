@@ -74,7 +74,9 @@ EOF
         docker \
         container \
         run \
-        --publish 443:443 --publish 80:80 --publish 22:22 \
+        --publish 14762:443 \
+        --publish 15114:80 \
+        --publish 16579:22 \
         --restart always \
         --volume /srv/gitlab/config:/etc/gitlab \
         --volume /srv/gitlab/logs:/var/log/gitlab \
