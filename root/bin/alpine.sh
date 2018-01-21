@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CIDFILE=$(mktemp /srv/ids/containers/XXXXXXXX) &&
+CIDFILE=$(mktemp /srv/docker/containers/XXXXXXXX) &&
     docker \
         container \
         create \
