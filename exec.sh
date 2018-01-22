@@ -42,6 +42,14 @@ xhost +local: &&
             ;;
         esac
     done &&
+    OLD_VOLUME=$(sudo /usr/bin/docker volume ls --quiet --filter label=expiry --filter label=project=fd7a2bf4-be72-4c40-ad24-b772cd54019a | while read VOLUME
+    do
+        echo $(sudo /usr/bin/docker volume inspect --format "{{.Labels.expiry}}" ${VOLUME}) ${VOLUME}
+    done | sort -k1 -n | tail -n 1 | cut -f 2 -d " ") &&
+    NEW_VOLUME=$(sudo /usr/bin/docker volume create --label expiry=$(($(date +%s)+60*60*24*7*4)) --label project=fd7a2bf4-be72-4c40-ad24-b772cd54019a) &&
+    if [ ! -z "${OLD_VOLUME}" ]
+        sudo /usr/bin/docker container run --interactive --rm --label expiry=$(($(date +%s)+60*60*24*7)) --volume ${OLD_VOLUME}:/srv/input:ro --volume ${NEW_VOLUME}:/srv/output alpine:3.4 cp -a /srv/input/. /srv/output
+    fi &&
     sudo /usr/bin/docker volume create --label expiry=$(($(date +%s)+60*60*24*7)) > ${IDS}/volumes/storage &&
     sudo /usr/bin/docker volume create --label expiry=$(($(date +%s)+60*60*24*7)) > ${IDS}/volumes/docker &&
     sudo /usr/bin/docker network create --label expiry=$(($(date +%s)+60*60*24*7)) $(uuidgen) > ${IDS}/networks/main &&
