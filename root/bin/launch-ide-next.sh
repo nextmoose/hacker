@@ -68,6 +68,22 @@ export PROJECT_NAME=hacker &&
                 export CHECKOUT_BRANCH="${2}" &&
                     shift 2
             ;;
+            --gpg-secret-key)
+                export GPG_SECRET_KEY="${2}" &&
+                    shift 2
+            ;;
+            --gpg2-secret-key)
+                export GPG2_SECRET_KEY="${2}" &&
+                    shift 2
+            ;;
+            --gpg-owner-trust)
+                export GPG_OWNER_TRUST="${2}" &&
+                    shift 2
+            ;;
+            --gpg2-owner-trust)
+                export GPG2_OWNER_TRUST="${2}" &&
+                    shift 2
+            ;;
             *)
                 echo Unsupported Option &&
                     echo ${0} &&
@@ -100,6 +116,10 @@ export PROJECT_NAME=hacker &&
         --env HOST_PORT="${HOST_PORT}" \
         --env MASTER_BRANCH="${MASTER_BRANCH}" \
         --env CHECKOUT_BRANCH="${CHECKOUT_BRANCH}" \
-        rebelplutonium/github:0.0.7 &&
+        --env GPG_SECRET_KEY="$(pass show ${GPG_SECRET_KEY})" \
+        --env GPG2_SECRET_KEY="$(pass show ${GPG2_SECRET_KEY})" \
+        --env GPG_OWNER_TRUST="$(pass show ${GPG_ONWER_TRUST})" \
+        --env GPG2_OWNER_TRUST="$(pass show ${GPG2_ONWER_TRUST})" \
+        rebelplutonium/github:0.0.8 &&
     docker network connect --alias ${PROJECT_NAME} ${EXTERNAL_NETWORK_NAME} $(cat ${CIDFILE}) &&
     docker container start $(cat ${CIDFILE})
