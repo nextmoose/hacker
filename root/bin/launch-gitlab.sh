@@ -104,9 +104,9 @@ EOF
         --volume /srv/gitlab/runner:/etc/gitlab-runner \
         --volume /var/run/docker.sock:/var/run/docker.sock \
         gitlab/gitlab-runner:latest &&
-    ssh gitlab-ec2 sudo network create main &&
-    ssh gitlab-ec2 sudo network connect --alias gitlab main gitlab &&
-    ssh gitlab-ec2 sudo network connect --alias docker main docker &&
-    ssh gitlab-ec2 sudo network connect main gitlab-runner &&
+    ssh gitlab-ec2 sudo docker network create main &&
+    ssh gitlab-ec2 sudo docker network connect --alias gitlab main gitlab &&
+    ssh gitlab-ec2 sudo docker network connect --alias docker main docker &&
+    ssh gitlab-ec2 sudo docker network connect main gitlab-runner &&
     ssh gitlab-ec2 &&
     bash
