@@ -107,11 +107,21 @@ EOF
         --volume /srv/gitlab/runner:/etc/gitlab-runner \
         --env DOCKER_HOST=tcp://docker:2376 \
         gitlab/gitlab-runner:v10.4.0 &&
+    # ssh \
+    #     gitlab-ec2 \
+    #     sudo \
+    #     docker \
+    #     create \
+    #     --name registry \
+    #     --restart always \
+    #     --volume /srv/gitlab/registry:/var/lib/registry \
+    #     registry:2.5.2 &&
     ssh gitlab-ec2 sudo docker network create main &&
     ssh gitlab-ec2 sudo docker network connect --alias gitlab main gitlab &&
     ssh gitlab-ec2 sudo docker network connect --alias docker main docker &&
     ssh gitlab-ec2 sudo docker network connect main gitlab-runner &&
-    ssh gitlab-ec2 sudo docker container start gitlab gitlab-runner docker &&
+    ssh gitlab-ec2 sudo docker network connect --alias registry main registry &&    
+    ssh gitlab-ec2 sudo docker container start gitlab gitlab-runner docker registry &&
     echo gitlab-runner register --non-interactive --registration-token c9Lq4PzjhpDkXY9xSyyx --locked false --name personal --url http://my-hacker:19129 --executor docker --docker-image docker:17.12-dind &&
     ssh gitlab-ec2 &&
     bash
