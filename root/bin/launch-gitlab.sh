@@ -75,7 +75,8 @@ EOF
         sudo \
         docker \
         container \
-        run \
+        create \
+        --name gitlab \
         --detach \
         --publish 127.0.0.1:12073:443 \
         --publish 127.0.0.1:14465:80 \
@@ -85,5 +86,30 @@ EOF
         --volume /srv/gitlab/logs:/var/log/gitlab \
         --volume /srv/gitlab/data:/var/opt/gitlab \
         gitlab/gitlab-ce:10.4.0-ce.0 &&
+    ssh \
+        gitlab-ec2 \
+        sudo \
+        docker \
+        container \
+        create \
+        --detach \
+        --name docker \
+        --privileged \
+        docker:17.12.0-dind &&
+    ssh \
+        gitlab-ec2 \
+        sudo \
+        docker \
+        create \
+        --detach \
+        --name gitlab-runner \
+        --restart always \
+        --volume /srv/gitlab/runner:/etc/gitlab-runner \
+        --volume /var/run/docker.sock:/var/run/docker.sock \
+        gitlab/gitlab-runner:latest &&
+    ssh gitlab-ec2 sudo network create main &&
+    ssh gitlab-ec2 sudo network connect --alias gitlab main gitlab &&
+    ssh gitlab-ec2 sudo network connect --alias docker main docker &&
+    ssh gitlab-ec2 sudo network connect main gitlab-runner &&
     ssh gitlab-ec2 &&
     bash
