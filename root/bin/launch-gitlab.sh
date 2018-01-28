@@ -64,9 +64,7 @@ EOF
     ) &&
     sleep 15s &&
     ssh-keyscan $(aws ec2 describe-instances --filter Name=tag:moniker,Values=gitlab Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].PublicIpAddress" --output text) >> ${HOME}/.ssh/known_hosts &&
-    echo ALPHA 00100 &&
     ssh gitlab-ec2 sudo mkdir /srv/gitlab &&
-    echo ALPHA 00200 &&
     ssh gitlab-ec2 sudo mount ${DEVICE} /srv/gitlab &&
     echo "find /dev/disk/by-uuid/ -mindepth 1 | while read FILE; do [ \$(readlink -f \${FILE}) == \"${DEVICE}\" ] && basename \${FILE} ; done | while read UUID; do echo \"UUID=\${UUID}       /srv/data   ext4    defaults,nofail        0       2\" | sudo tee --append /etc/fstab ; done" | ssh gitlab-ec2 sh &&
     ssh gitlab-ec2 sudo yum update --assumeyes &&
