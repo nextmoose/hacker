@@ -95,7 +95,8 @@ EOF
         create \
         --name docker \
         --privileged \
-        docker:17.12.0-dind &&
+        docker:17.12.0-dind \
+            --docker-host tcp://0.0.0.0:2376 &&
     ssh \
         gitlab-ec2 \
         sudo \
@@ -104,12 +105,13 @@ EOF
         --name gitlab-runner \
         --restart always \
         --volume /srv/gitlab/runner:/etc/gitlab-runner \
-        --volume /var/run/docker.sock:/var/run/docker.sock \
-        gitlab/gitlab-runner:latest &&
+        --env DOCKER_HOST=tcp://docker:2376 \
+        gitlab/gitlab-runner:v10.4.0 &&
     ssh gitlab-ec2 sudo docker network create main &&
     ssh gitlab-ec2 sudo docker network connect --alias gitlab main gitlab &&
     ssh gitlab-ec2 sudo docker network connect --alias docker main docker &&
     ssh gitlab-ec2 sudo docker network connect main gitlab-runner &&
     ssh gitlab-ec2 sudo docker container start gitlab gitlab-runner docker &&
+    echo gitlab-runner register --non-interactive --registration-token c9Lq4PzjhpDkXY9xSyyx --locked false --name personal --url http://my-hacker:19129 --executor docker --docker-image docker:17.12-dind &&
     ssh gitlab-ec2 &&
     bash
