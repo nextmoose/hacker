@@ -77,7 +77,6 @@ EOF
         container \
         create \
         --name gitlab \
-        --detach \
         --publish 127.0.0.1:12073:443 \
         --publish 127.0.0.1:14465:80 \
         --publish 127.0.0.1:16955:22 \
@@ -92,7 +91,6 @@ EOF
         docker \
         container \
         create \
-        --detach \
         --name docker \
         --privileged \
         docker:17.12.0-dind &&
@@ -101,7 +99,6 @@ EOF
         sudo \
         docker \
         create \
-        --detach \
         --name gitlab-runner \
         --restart always \
         --volume /srv/gitlab/runner:/etc/gitlab-runner \
