@@ -70,7 +70,6 @@ EOF
     ssh gitlab-ec2 sudo yum update --assumeyes &&
     ssh gitlab-ec2 sudo yum install --assumeyes docker &&
     ssh gitlab-ec2 sudo service docker start &&
-    ssh gitlab-ec2 sudo service docker enable &&
     ssh \
         gitlab-ec2 \
         sudo \
