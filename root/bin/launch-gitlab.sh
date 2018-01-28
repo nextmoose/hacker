@@ -1,28 +1,28 @@
 #!/bin/sh
 
-WORKSPACE=$(mktemp -d /srv/docker/workspace/XXXXXXXX) &&
+WORKSPACE=$(generate-workspace) &&
     DOT_SSH_CONFIG_FILE=$(mktemp ${HOME}/.ssh/config.d/XXXXXXXX) &&
     SECURITY_GROUP=$(uuidgen) &&
     KEY_NAME=$(uuidgen) &&
     KEY_FILE=$(mktemp ${HOME}/.ssh/XXXXXXXX.id_rsa) &&
     rm -f ${KEY_FILE} &&
-    # cleanup(){
-    #     rm -f ${DOT_SSH_CONFIG_FILE} ${KEY_FILE} ${KEY_FILE}.pub &&
-    #         aws \
-    #             ec2 \
-    #             wait \
-    #             instance-terminated \
-    #             --instance-ids $(aws \
-    #                 ec2 \
-    #                 terminate-instances \
-    #                 --instance-ids $(aws ec2 describe-instances --filters Name=tag:moniker,Values=gitlab Name=instance-state-name,Values=running --query "Reservations[0].Instances[*].InstanceId" --output text) \
-    #                 --query "TerminatingInstances[*].InstanceId" \
-    #                 --output text) &&
-    #         aws ec2 delete-security-group --group-name ${SECURITY_GROUP} &&
-    #         aws ec2 delete-key-pair --key-name ${KEY_NAME} &&
-    #         rm -rf ${WORKSPACE}
-    # } &&
-    # trap cleanup EXIT &&
+    cleanup(){
+        rm -f ${DOT_SSH_CONFIG_FILE} ${KEY_FILE} ${KEY_FILE}.pub &&
+            aws \
+                ec2 \
+                wait \
+                instance-terminated \
+                --instance-ids $(aws \
+                    ec2 \
+                    terminate-instances \
+                    --instance-ids $(aws ec2 describe-instances --filters Name=tag:moniker,Values=gitlab Name=instance-state-name,Values=running --query "Reservations[0].Instances[*].InstanceId" --output text) \
+                    --query "TerminatingInstances[*].InstanceId" \
+                    --output text) &&
+            aws ec2 delete-security-group --group-name ${SECURITY_GROUP} &&
+            aws ec2 delete-key-pair --key-name ${KEY_NAME} &&
+            rm -rf ${WORKSPACE}
+    } &&
+    trap cleanup EXIT &&
     ssh-keygen -f ${KEY_FILE} -C "temporary gitlab-ec2" -P "" &&
     aws \
         ec2 \
@@ -89,4 +89,5 @@ EOF
         --volume /srv/gitlab/logs:/var/log/gitlab \
         --volume /srv/gitlab/data:/var/opt/gitlab \
         gitlab/gitlab-ce:10.4.0-ce.0 &&
-    ssh gitlab-ec2
+    ssh gitlab-ec2 &&
+    bash
