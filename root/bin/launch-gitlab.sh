@@ -107,15 +107,15 @@ EOF
         --volume /srv/gitlab/runner:/etc/gitlab-runner \
         --env DOCKER_HOST=tcp://docker:2376 \
         gitlab/gitlab-runner:v10.4.0 &&
-    # ssh \
-    #     gitlab-ec2 \
-    #     sudo \
-    #     docker \
-    #     create \
-    #     --name registry \
-    #     --restart always \
-    #     --volume /srv/gitlab/registry:/var/lib/registry \
-    #     registry:2.5.2 &&
+    ssh \
+        gitlab-ec2 \
+        sudo \
+        docker \
+        create \
+        --name registry \
+        --restart always \
+        registry:2.5.2 &&
+# --volume /srv/gitlab/registry:/var/lib/registry \
     ssh gitlab-ec2 sudo docker network create main &&
     ssh gitlab-ec2 sudo docker network connect --alias gitlab main gitlab &&
     ssh gitlab-ec2 sudo docker network connect --alias docker main docker &&
