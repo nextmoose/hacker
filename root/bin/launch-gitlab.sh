@@ -57,6 +57,8 @@ User ec2-user
 IdentityFile ${KEY_FILE}
 LocalForward 0.0.0.0:10727 127.0.0.1:12073
 LocalForward 0.0.0.0:19129 127.0.0.1:14465
+LocalForward 0.0.0.0:18825 127.0.0.1:14465
+LocalForward 0.0.0.0:13773 127.0.0.1:14465
 LocalForward 0.0.0.0:18712 127.0.0.1:16955
 ControlMaster auto
 ControlPath ~/.ssh/ec2-user.%h-%p-%r.ctrl_path
@@ -108,5 +110,6 @@ EOF
     ssh gitlab-ec2 sudo docker network connect --alias gitlab main gitlab &&
     ssh gitlab-ec2 sudo docker network connect --alias docker main docker &&
     ssh gitlab-ec2 sudo docker network connect main gitlab-runner &&
+    ssh gitlab-ec2 sudo docker container start gitlab gitlab-runner docker &&
     ssh gitlab-ec2 &&
     bash
