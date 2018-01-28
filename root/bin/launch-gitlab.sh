@@ -114,8 +114,8 @@ EOF
         create \
         --name registry \
         --restart always \
+        --volume /srv/gitlab/registry:/var/lib/registry \
         registry:2.5.2 &&
-# --volume /srv/gitlab/registry:/var/lib/registry \
     ssh gitlab-ec2 sudo docker network create main &&
     ssh gitlab-ec2 sudo docker network connect --alias gitlab main gitlab &&
     ssh gitlab-ec2 sudo docker network connect --alias docker main docker &&
