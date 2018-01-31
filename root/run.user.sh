@@ -5,6 +5,7 @@ pip install awscli --upgrade --user &&
     mkdir /home/user/.ssh &&
     chmod 0700 /home/user/.ssh &&
     mkdir /home/user/.ssh/config.d &&
+    cp /opt/docker/verizon.ssh.config &&
     touch /home/user/.ssh/{known_hosts,config,origin.id_rsa,upstream.id_rsa,report.id_rsa,lieutenant-ec2.id_rsa,lieutenant.id_rsa,pavillion.id_rsa} &&
     chmod 0644 /home/user/.ssh/known_hosts &&
     chmod 0600 /home/user/.ssh/{config,origin.id_rsa,upstream.id_rsa,report.id_rsa,lieutenant-ec2.id_rsa,lieutenant.id_rsa,pavillion.id_rsa} &&
