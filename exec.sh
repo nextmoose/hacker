@@ -30,7 +30,7 @@ xhost +local: &&
                 export DOCKERHUB_USER_ID="${2}" &&
                     shift 2
             ;;
-            --dockerhub-userid)
+            --dockerhub-password)
                 export DOCKERHUB_PASSWORD="${2}" &&
                     shift 2
             ;;
