@@ -1,38 +1,39 @@
 #!/bin/sh
 
 xhost +local: &&
-    IDS=$(mktemp -d) &&
-    mkdir ${IDS}/containers &&
-    mkdir ${IDS}/networks &&
-    mkdir ${IDS}/volumes &&
+    dckr(){
+        sudo --preserve-env docker run --interactive --tty --rm docker:17.12.0-ce "${@}"
+    }
+    export EXTERNAL_DOCKER_VOLUME=$(docker volume create --label expiry=$(($(date +%s)+60*60*24*7))) &&
+    export EXTERNAL_DOCKER_NETWORK=$(docker network create --label expiry=$(($(date +%s)+60*60*24*7)) $(uuidgen))
     cleanup(){
-        ls -1 ${IDS}/containers | while read FILE
-        do
-            sudo /usr/bin/docker container stop $(cat ${IDS}/containers/${FILE}) &&
-                sudo /usr/bin/docker container rm --volumes $(cat ${IDS}/containers/${FILE})
-        done &&
-        ls -1 ${IDS}/networks | while read FILE
-        do
-            sudo /usr/bin/docker network rm $(cat ${IDS}/networks/${FILE})
-        done &&
-        ls -1 ${IDS}/volumes | while read FILE
-        do
-            sudo /usr/bin/docker volume rm $(cat ${IDS}/volumes/${FILE})
-        done &&
-        rm -rf ${IDS} &&
-        xhost
+        docker volume rm ${EXTERNAL_DOCKER_VOLUME} &&
+            docker network rm ${EXTERNAL_DOCKER_NETWORK} &&
+            xhost
     } &&
     trap cleanup EXIT &&
     while [ ${#} -gt 0 ]
     do
         case ${1} in
+            --gpg-secret-key)
+                export GPG_SECRET_KEY="${2}" &&
+                    shift 2
+            ;;
+            --gpg2-secret-key)
+                export GPG2_SECRET_KEY="${2}" &&
+                    shift 2
+            ;;
+            --gpg-owner-trust)
+                export GPG_OWNER_TRUST="${2}" &&
+                    shift 2
+            ;;
+            --gpg2-owner-trust)
+                export GPG2_OWNER_TRUST="${2}" &&
+                    shift 2
+            ;;
             --hacker-version)
                 HACKER_VERSION="${2}" &&
                     shift 2
-            ;;
-            --use-versioned-hacker-secrets)
-                USE_VERSIONED_HACKER_SECRETS=yes &&
-                    shift
             ;;
             *)
                 echo Unknown Option &&
@@ -42,14 +43,6 @@ xhost +local: &&
             ;;
         esac
     done &&
-    sudo /usr/bin/docker volume create --label expiry=$(($(date +%s)+60*60*24*7)) > ${IDS}/volumes/storage &&
-    sudo /usr/bin/docker volume create --label expiry=$(($(date +%s)+60*60*24*7)) > ${IDS}/volumes/docker &&
-    sudo /usr/bin/docker network create --label expiry=$(($(date +%s)+60*60*24*7)) $(uuidgen) > ${IDS}/networks/main &&
-    export ORIGIN_ID_RSA="$(cat private/origin.id_rsa)" &&
-    export GPG_SECRET_KEY="$(cat private/gpg_secret_key)" &&
-    export GPG2_SECRET_KEY="$(cat private/gpg2_secret_key)" &&
-    export GPG_OWNER_TRUST="$(cat private/gpg_owner_trust)" &&
-    export GPG2_OWNER_TRUST="$(cat private/gpg2_owner_trust)" &&
     sudo \
         --preserve-env \
         docker \
